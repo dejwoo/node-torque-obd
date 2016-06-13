@@ -46,7 +46,7 @@ app.use(function(err, req, res, next) {
 		error: {}
 	});
 });
-http.listen(80, function(){
-	console.log('Application running!\nListening on port 80');
+http.listen(4000, function(){
+	console.log('Application running!\nListening on port 4000');
 });
 
