@@ -1,0 +1,30 @@
+{
+  "name": "node-torque-obd",
+  "version": "1.0.0",
+  "description": "Node based server for Torque mobile application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dejwoo/node-torque-obd.git"
+  },
+  "keywords": [
+    "Torque",
+    "OBD-II"
+  ],
+  "author": "dejwoo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dejwoo/node-torque-obd/issues"
+  },
+  "homepage": "https://github.com/dejwoo/node-torque-obd#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "morgan": "^1.7.0",
+    "socket.io": "^1.4.6"
+  }
+}
