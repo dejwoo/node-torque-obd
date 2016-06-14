@@ -4,6 +4,13 @@
 	<meta charset="UTF-8">
 	<title>Torque Web Server</title>
 </head>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script>
+	sock = io.connect();
+	sock.on('data', function(data) {
+		console.log(data);
+	});
+</script>
 <body>
 	Welcome to the torque web server!
 </body>

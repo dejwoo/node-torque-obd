@@ -94,6 +94,7 @@ app.all('/upload', function(req,res) {
 				console.error(err);
 			}
 		});
+		io.emit('data', torqueLogObj);
 	}
 	res.headers = {"conent-type":"text/html; charset=UTF-8"};
 	res.status(200);
@@ -128,3 +129,15 @@ http.listen(8080, function(){
 	console.log('Application running!\nListening on port 8080');
 });
 
+io.on ('connection', function (socket) {
+  var re_addr = socket.request.connection.remoteAddress+':'+socket.request.connection.remotePort;
+  var hndsh = socket.handshake, date = new Date ();
+  console.log ('-- Client '+re_addr+' connected ['+socket.nsp.name+'] on '+ date + ' --');
+  console.log ('  sockID = '+socket.id+ '  htmlcookie = ', hndsh.headers.cookie);
+  console.log ('  Total server clients = '+ socket.conn.server.clientsCount);
+
+  socket.on ('disconnect', function () {
+    console.log ('-- Client '+re_addr+' disconnected ['+socket.nsp.name+'] --');
+    console.log ('  Total server clients = '+ socket.conn.server.clientsCount);
+  });
+});
