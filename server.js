@@ -16,9 +16,10 @@ app.get('/', function (req, res) {
 	res.status(200);
   res.sendfile(__dirname + '/public/index.html');
 });
-app.all('/torque/upload_data.php', function(req,res) {
-	console.log(req.method, req.body, req.headers);
+app.all('/upload', function(req,res) {
+	console.log(JSON.stringify(req.query, undefined, 2));
 	res.headers = {"conent-type":"text/html; charset=UTF-8"};
+	res.status(200);
 	res.send('OK!');
 });
 //error not found
@@ -46,7 +47,7 @@ app.use(function(err, req, res, next) {
 		error: {}
 	});
 });
-http.listen(4000, function(){
-	console.log('Application running!\nListening on port 4000');
+http.listen(8080, function(){
+	console.log('Application running!\nListening on port 8080');
 });
 
