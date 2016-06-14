@@ -32,14 +32,12 @@ var torqueKeys = mongoose.model("keys", keySchema);
 var torqueLogs = mongoose.model("logs", logSchema);
 torqueKeys.find(function (err, keys) {
   if (err) return console.error(err);
-  console.log(keys);
 });
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-console.log(__dirname + '/public/index.html');
 app.get('/', function (req, res) {
 	res.status(200);
   res.sendfile(__dirname + '/public/index.html');
@@ -60,11 +58,9 @@ app.all('/upload', function(req,res) {
 				console.error("Duplicit key found");
 			} else {
 				var resData = response[0];
-				console.log(resData['Device ID']);
 				switch (resData['Device ID']) {
 					case "userEmail":
 						user = value;
-						console.log("USEEER", user);
 						break;
 					case "Timestamp":
 						timestamp = value;
