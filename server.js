@@ -88,7 +88,12 @@ app.all('/upload', function(req,res) {
 	});
 	function putDataToDB() {
 		torqueLogObj = {"user":user, "torqueId":torqueId, "timestamp":timestamp, "data": data};
-		console.log("OBJECT:", torqueLogObj);
+		logToSave = new torqueLogs(torqueLogObj);
+		logToSave.save(function(err) {
+			if (err) {
+				console.error(err);
+			}
+		});
 	}
 	res.headers = {"conent-type":"text/html; charset=UTF-8"};
 	res.status(200);
