@@ -17,10 +17,43 @@
 			document.getElementById('rootElem').appendChild(div);
 		}
 		div.innerHTML = JSON.stringify(data, undefined, 2);
+		var tableBody = document.getElementById(tableBody);
+		for (var index =0; index < data.data.length; index++) {
+			tableTd = document.getElementById(data.data[index].id);
+			if (tableTd) {
+				tableTd.innerHTML = data.data[index].value;
+			} else {
+				var tableTr = document.createElement('tr');
+				var tableTdId = document.createElement('td');
+				tableTdId.innerHTML = data.data[index].id;
+				var tableTdDescription = document.createElment('td');
+				tableTdDescription.innerHTML = data.data[index].description;
+				var tableTdValue = document.createElement('td');
+				tableTdValue.id = data.data[index].id;
+				tableTdValue.innerHTML = data.data[index].value;
+				tableTr.appendChil(tableTdId);
+				tableTr.appendChil(tableTdDescription);
+				tableTr.appendChil(tableTdValue);
+				tableBody.append(tableTr);
+			}
+		}
 	});
 </script>
 <body>
 	<h2>Welcome to the torque web server!</h2>
 	<div id="rootElem"></div>
+	<div class="table-responsive">
+		<table class="table table-striped">
+		    <thead>
+		      <tr>
+		        <th>ID</th>
+		        <th>Description</th>
+		        <th>Value</th>
+		      </tr>
+		    </thead>
+		    <tbody id="tableBody">
+		    </tbody>
+		</table>
+	</div>
 </body>
 </html>
