@@ -10,9 +10,17 @@
 	console.log(sock);
 	sock.on('data', function(data) {
 		console.log(data);
+		var div = document.getElementById(sock.id);
+		if (div == undefined) {
+			div = document.createElement('div');
+			div.id = sock.id;
+			document.getElementById('rootElem').appendChild(div);
+		}
+		div.innerHTML = JSON.stringify(data, undefined, 2);
 	});
 </script>
 <body>
-	Welcome to the torque web server!
+	<h2>Welcome to the torque web server!</h2>
+	<div id="rootElem"></div>
 </body>
 </html>
