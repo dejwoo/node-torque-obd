@@ -90,7 +90,7 @@ app.all('/upload', function(req,res) {
 				console.error(err);
 			}
 		});
-		io.emit('data', torqueLogObj);
+		io.sockets.emit('data', torqueLogObj);
 	}
 	res.headers = {"conent-type":"text/html; charset=UTF-8"};
 	res.status(200);
