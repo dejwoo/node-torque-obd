@@ -39,6 +39,28 @@
 			document.body.appendChild(divSock);
 		}
 		var tableBody = document.getElementById(data.torqueId + "_idtableBody");
+		for (var key in data) {
+			if (key == "data" || !data.hasOwnProperty(key)) {
+				continue;
+			}
+			tableTd = document.getElementById(data.torqueId + "_" + key);
+			if (tableTd) {
+				tableTd.innerHTML = data[key];
+			} else {
+				var tableTr = document.createElement('tr');
+				var tableTdId = document.createElement('td');
+				tableTdId.innerHTML = key;
+				var tableTdDescription = document.createElement('td');
+				tableTdDescription.innerHTML = "-";
+				var tableTdValue = document.createElement('td');
+				tableTdValue.id = data.torqueId + "_" + key;
+				tableTdValue.innerHTML = data[key];
+				tableTr.appendChild(tableTdId);
+				tableTr.appendChild(tableTdDescription);
+				tableTr.appendChild(tableTdValue);
+				tableBody.appendChild(tableTr);
+			}
+		}
 		for (var index =0; index < data.data.length; index++) {
 			tableTd = document.getElementById(data.torqueId + "_" + data.data[index].id);
 			if (tableTd) {
