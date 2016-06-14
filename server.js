@@ -6,6 +6,7 @@ const http = require ('http').Server(app);
 const io = require ('socket.io').listen(http);
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://torqueLogger:cwY5uP9eUdj2@localhost:27017/torque', function (err) {
 	if (err) {
@@ -21,10 +22,9 @@ keySchema.methods.isEqual = function(id) {
 	return this.id == id;
 }
 var torqueKeys = mongoose.model("keys", keySchema);
-
-torqueKeys.find(function (err, key) {
+torqueKeys.find(function (err, keys) {
   if (err) return console.error(err);
-  console.log(key);
+  console.log(keys);
 })
 
 app.use(logger('dev'));
@@ -37,7 +37,11 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/public/index.html');
 });
 app.all('/upload', function(req,res) {
-	console.log(JSON.stringify(req.query, undefined, 2));
+	_.forOwn(req.query, function(value, key) {
+		torqueKeys.find({"id":key}, function(err, response) {
+			console.log("key:",response, "value", value);
+		});
+	});
 	res.headers = {"conent-type":"text/html; charset=UTF-8"};
 	res.status(200);
 	res.send('OK!');
