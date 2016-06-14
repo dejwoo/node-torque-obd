@@ -131,7 +131,10 @@ io.on ('connection', function (socket) {
   console.log ('-- Client '+re_addr+' connected ['+socket.nsp.name+'] on '+ date + ' --');
   console.log ('  sockID = '+socket.id+ '  htmlcookie = ', hndsh.headers.cookie);
   console.log ('  Total server clients = '+ socket.conn.server.clientsCount);
-
+  torqueLogs.findOne().sort({ field: 'asc', _id: -1 }).limit(1).exec(function (err, log) {
+  	console.log("log");
+  	socket.emit('data', log);
+  })
   socket.on ('disconnect', function () {
     console.log ('-- Client '+re_addr+' disconnected ['+socket.nsp.name+'] --');
     console.log ('  Total server clients = '+ socket.conn.server.clientsCount);
