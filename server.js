@@ -6,6 +6,22 @@ const http = require ('http').Server(app);
 const io = require ('socket.io').listen(http);
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://torque:cwY5uP9eUdj2@localhost:27017/torque');
+
+var keySchema = mongoose.Schema({
+	"id" : String,
+	"Device ID": String
+});
+keySchema.methods.isEqual = function(id) {
+	return this.id == id;
+}
+var torqueKeys = mongoose.model("keys", keySchema);
+
+torqueKeys.find(function (err, key) {
+  if (err) return console.error(err);
+  console.log(key);
+})
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
