@@ -10,10 +10,10 @@
 	sock = io.connect('http://dejwoo.com', {path: "/torque/socket.io"});
 	console.log(sock);
 	sock.on('data', function(data) {
-		var divSock = document.getElementById(data.id);
+		var divSock = document.getElementById(data.torqueId);
 		if (divSock == undefined) {
 			divSock = document.createElement('div');
-			divSock.id = data.id;
+			divSock.id = data.torqueId;
 			divSock.setAttribute("class", "table-responsive")
 			var table = document.createElement('table');
 			table.setAttribute("class", "table table-striped")
@@ -33,14 +33,14 @@
 			table.appendChild(trHead);
 			//table BODY
 			var tbody = document.createElement('tbody');
-			tbody.id = data.id + "_idtableBody";
+			tbody.id = data.torqueId + "_idtableBody";
 			table.appendChild(tbody);
 			divSock.appendChild(table);
 			document.body.appendChild(divSock);
 		}
-		var tableBody = document.getElementById(data.id + "_idtableBody");
+		var tableBody = document.getElementById(data.torqueId + "_idtableBody");
 		for (var index =0; index < data.data.length; index++) {
-			tableTd = document.getElementById(data.id + "_" + data.data[index].id);
+			tableTd = document.getElementById(data.torqueId + "_" + data.data[index].id);
 			if (tableTd) {
 				tableTd.innerHTML = data.data[index].value;
 			} else {
@@ -50,7 +50,7 @@
 				var tableTdDescription = document.createElement('td');
 				tableTdDescription.innerHTML = data.data[index].description;
 				var tableTdValue = document.createElement('td');
-				tableTdValue.id = data.id + "_" + data.data[index].id;
+				tableTdValue.id = data.torqueId + "_" + data.data[index].id;
 				tableTdValue.innerHTML = data.data[index].value;
 				tableTr.appendChild(tableTdId);
 				tableTr.appendChild(tableTdDescription);
