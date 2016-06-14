@@ -10,17 +10,37 @@
 	sock = io.connect('http://dejwoo.com', {path: "/torque/socket.io"});
 	console.log(sock);
 	sock.on('data', function(data) {
-		console.log(data);
-		var div = document.getElementById(sock.id);
-		if (div == undefined) {
-			div = document.createElement('div');
-			div.id = sock.id;
-			document.getElementById('rootElem').appendChild(div);
+		var divSock = document.getElementById(data.id);
+		if (divSock == undefined) {
+			divSock = document.createElement('div');
+			divSock.id = data.id;
+			divSock.setAttribute("class", "table-responsive")
+			var table = document.createElement('table');
+			table.setAttribute("class", "table table-striped")
+			//table HEAD
+			var thead = document.createElement('thead');
+			var trHead = document.createElement('tr');
+			var thId = document.createElement('th');
+			thId.innerHTML = "ID";
+			var thDescription = document.createElement('th');
+			thDescription.innerHTML = "Description";
+			var thValue = document.createElement('th');
+			thValue.innerHTML = "Value";
+			trHead.appendChild(thId);
+			trHead.appendChild(thDescription);
+			trHead.appendChild(thValue);
+			thead.appendChild(trHead);
+			table.appendChild(trHead);
+			//table BODY
+			var tbody = document.createElement('tbody');
+			tbody.id = data.id + "_idtableBody";
+			table.appendChild(tbody);
+			divSock.appendChild(table);
+			document.body.appendChild(divSock);
 		}
-		div.innerHTML = JSON.stringify(data, undefined, 2);
-		var tableBody = document.getElementById("tableBody");
+		var tableBody = document.getElementById(data.id + "_idtableBody");
 		for (var index =0; index < data.data.length; index++) {
-			tableTd = document.getElementById(data.data[index].id);
+			tableTd = document.getElementById(data.id + "_" + data.data[index].id);
 			if (tableTd) {
 				tableTd.innerHTML = data.data[index].value;
 			} else {
@@ -30,7 +50,7 @@
 				var tableTdDescription = document.createElement('td');
 				tableTdDescription.innerHTML = data.data[index].description;
 				var tableTdValue = document.createElement('td');
-				tableTdValue.id = data.data[index].id;
+				tableTdValue.id = data.id + "_" + data.data[index].id;
 				tableTdValue.innerHTML = data.data[index].value;
 				tableTr.appendChild(tableTdId);
 				tableTr.appendChild(tableTdDescription);
@@ -42,20 +62,6 @@
 </script>
 <body>
 	<h2>Welcome to the torque web server!</h2>
-	<div id="rootElem"></div>
-	<div class="table-responsive">
-		<table class="table table-striped">
-		    <thead>
-		      <tr>
-		        <th>ID</th>
-		        <th>Description</th>
-		        <th>Value</th>
-		      </tr>
-		    </thead>
-		    <tbody id="tableBody">
-		    </tbody>
-		</table>
-	</div>
 <script   src="http://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
