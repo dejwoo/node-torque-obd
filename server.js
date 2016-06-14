@@ -7,7 +7,11 @@ const io = require ('socket.io').listen(http);
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://torque:cwY5uP9eUdj2@localhost:27017/torque');
+mongoose.connect('mongodb://torqueLogger:cwY5uP9eUdj2@localhost:27017/torque', function (err) {
+	if (err) {
+		console.log(err);
+	}
+});
 
 var keySchema = mongoose.Schema({
 	"id" : String,
