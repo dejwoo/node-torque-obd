@@ -18,14 +18,22 @@ var keySchema = mongoose.Schema({
 	"id" : String,
 	"Device ID": String
 });
-keySchema.methods.isEqual = function(id) {
-	return this.id == id;
-}
+var logSchema = mongoose.Schema({
+	"user": String,
+	"torqueId": String,
+	"timestamp": Number,
+	"data": [{
+		"id": String
+		"description" : String,
+		"value": {},
+	}]
+});
 var torqueKeys = mongoose.model("keys", keySchema);
+var torqueLogs = mongoose.model("logs", logSchema);
 torqueKeys.find(function (err, keys) {
   if (err) return console.error(err);
   console.log(keys);
-})
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -37,11 +45,36 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/public/index.html');
 });
 app.all('/upload', function(req,res) {
+	let user, torqueId, timestamp, data;
+	data = [];
 	_.forOwn(req.query, function(value, key) {
 		torqueKeys.find({"id":key}, function(err, response) {
-			console.log("key:",response, "value", value);
+			if (response.length > 1) {
+				console.error("Duplicit key found");
+			} else {
+				var resData = response[0];
+				switch (resData['Device ID']) {
+					case "userEmail":
+						user = value;
+						break;
+					case "Timestamp":
+						time = value;
+						break;
+					case "Torque ID":
+						torqueId = value;
+						break;
+					default:
+						let dataObj = {};
+						dataObj.id = resData['id'];
+						dataObj.description = resData['Device ID'];
+						dataObj.value = value;
+						data.push(dataObj);
+				}
+			}
 		});
 	});
+	torqueLogObj = {"user":user, "torqueId":torqueId, "timestamp":timestamp, "data": data};
+	console.log(JSON.stringify(torqueLogObj, undefined, 2));
 	res.headers = {"conent-type":"text/html; charset=UTF-8"};
 	res.status(200);
 	res.send('OK!');
